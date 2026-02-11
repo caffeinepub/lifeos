@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Building LifeOS as a web-based personal digital well-being/productivity dashboard (React/TypeScript frontend + Motoko backend) inspired by the Android OS-layer concept, due to platform constraints.",
+  "architectural_notes": [
+    "Platform constraint: implementation will be a web app (React/TypeScript) with Motoko backend; cannot build native Android OS-layer tracking or system-level app blocking.",
+    "Phone-level usage tracking and controls must be implemented via web-accessible signals and app-internal features rather than Android system APIs."
+  ],
+  "known_issues": [
+    "User requested a fully real Android OS-layer app; current platform cannot access Android system data, so true real-time foreground/background app tracking and OS-level controls are not feasible here.",
+    "Onboarding flow bug: after Internet Identity login, the 'Enter your name' screen's Continue/Exit buttons appear clickable (color change) but do not proceed/dismiss, leaving user stuck."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-login-and-per-user-data-separation-so-each-signed-in-user-has-their-own-lifeos-dataset-events-analytics-summaries-preferences-and-reports-all-user-facing-text-must-be-in-english",
+      "title": "Implement Internet Identity login and per-user data separation so each signed-in user has their own LifeOS dataset (events, analytics summaries, preferences, and reports). All user-facing text must be in English.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-web-based-usage-tracking-system-that-records-in-app-and-browser-available-activity-signals-since-os-level-android-tracking-is-not-possible-page-route-visits-session-start-stop-time-spent-interaction-events-e-g-button-clicks-and-optional-user-entered-context-tags-e-g-study-work-entertainment-persist-events-locally-and-sync-to-the-backend",
+      "title": "Create a web-based usage tracking system that records in-app and browser-available activity signals (since OS-level Android tracking is not possible): page/route visits, session start/stop, time spent, interaction events (e.g., button clicks), and optional user-entered context tags (e.g., Study/Work/Entertainment). Persist events locally and sync to the backend.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-unified-life-dashboard-ui-showing-daily-weekly-analytics-derived-from-collected-events-time-spent-by-category-context-frequency-counts-sessions-per-day-trend-charts-and-a-computed-focus-score-productivity-index-with-an-explanation-of-the-formula-used",
+      "title": "Build the Unified Life Dashboard UI showing daily/weekly analytics derived from collected events: time spent by category/context, frequency counts, sessions per day, trend charts, and a computed Focus Score / Productivity Index with an explanation of the formula used.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-on-platform-behavior-engine-that-derives-routine-habit-insights-from-events-cluster-usage-patterns-by-time-of-day-and-context-detect-recurring-focus-windows-and-predict-a-likely-next-action-context-based-on-recent-history-provide-these-insights-in-the-ui-as-ai-like-reports-rule-statistics-based-no-external-ai-services",
+      "title": "Implement an on-platform 'Behavior Engine' that derives routine/habit insights from events: cluster usage patterns by time-of-day and context, detect recurring focus windows, and predict a likely next action/context based on recent history. Provide these insights in the UI as 'AI-like' reports (rule/statistics-based, no external AI services).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-smart-recommendations-and-alerts-feature-that-suggests-focus-windows-flags-overuse-patterns-user-configurable-thresholds-and-provides-personalized-digital-wellness-insights-based-on-recent-behavior",
+      "title": "Add a Smart Recommendations and Alerts feature that suggests focus windows, flags overuse patterns (user-configurable thresholds), and provides personalized digital wellness insights based on recent behavior.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-focus-mode-and-in-app-optimization-controls-appropriate-for-a-web-app-a-focus-timer-optional-blocklist-for-lifeos-sections-during-focus-and-an-in-app-notification-preferences-filtering-screen-affects-only-lifeos-ui-notifications-not-device-notifications",
+      "title": "Implement 'Focus Mode' and in-app optimization controls appropriate for a web app: a focus timer, optional blocklist for LifeOS sections during focus, and an in-app notification/preferences filtering screen (affects only LifeOS UI notifications, not device notifications).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-privacy-security-and-efficiency-measures-suitable-for-the-web-context-minimize-collected-data-provide-a-clear-local-first-sync-model-and-implement-optional-client-side-encryption-for-locally-stored-event-data-before-persistence-using-web-crypto",
+      "title": "Add privacy, security, and efficiency measures suitable for the web context: minimize collected data, provide a clear local-first + sync model, and implement optional client-side encryption for locally stored event data before persistence (using Web Crypto).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-coherent-visual-theme-for-lifeos-colors-typography-spacing-component-styling-with-a-distinct-calm-productivity-aesthetic-avoid-blue-purple-use-tailwind-existing-ui-components-consistently-across-all-pages",
+      "title": "Define and apply a coherent visual theme for LifeOS (colors, typography, spacing, component styling) with a distinct 'calm productivity' aesthetic (avoid blue/purple). Use Tailwind + existing UI components consistently across all pages.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-required-static-images-for-branding-and-onboarding-and-render-them-from-frontend-static-assets-not-via-backend",
+      "title": "Generate and include required static images for branding and onboarding, and render them from frontend static assets (not via backend).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-profile-onboarding-flow-so-that-after-internet-identity-login-the-welcome-to-lifeos-please-enter-your-name-dialog-can-be-successfully-completed-and-the-user-is-not-stuck-on-the-name-entry-screen",
+      "title": "Fix the profile onboarding flow so that after Internet Identity login, the “Welcome to LifeOS / Please enter your name” dialog can be successfully completed and the user is not stuck on the name entry screen.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-explicit-exit-action-on-the-profile-setup-dialog-that-reliably-lets-the-user-leave-the-onboarding-screen-log-out-and-return-to-the-sign-in-screen",
+      "title": "Add an explicit “Exit” action on the profile setup dialog that reliably lets the user leave the onboarding screen (log out and return to the sign-in screen).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "LifeOS web app: unified personal life dashboard with daily/weekly usage analytics, focus score/productivity index, and AI-generated behavior reports",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "App usage tracking data model + ingestion (web-collectable events) to support sessions, time spent, frequency, and context fields",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "AI behavior engine for habit/routine learning, clustering usage patterns, and predicting next actions / optimal focus times (conceptual within web constraints)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Smart recommendations: focus windows, overuse alerts, personalized digital wellness insights",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Auto-control features in web context: focus mode UI, notification/preferences filtering within the app (no OS-level blocking)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Data storage and sync: local persistence plus cloud sync support in the web implementation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Privacy/security: encrypted storage where applicable and on-device processing priority where feasible in web architecture",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Efficiency requirements: optimize data collection/processing to avoid excessive resource usage (web performance/battery considerations)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Modular architecture to support future scalability and feature expansion",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Ensure the backend exposes and persists per-user profile data required by the onboarding flow (get and save caller profile) so the frontend can determine whether onboarding is complete.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "LifeOS",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

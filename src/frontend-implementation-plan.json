@@ -1,0 +1,55 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Fix LifeOS onboarding dialog Continue/Exit after Internet Identity login",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "summary": "Make the profile onboarding dialog reliably save the user's name after Internet Identity login and close cleanly without leaving the app UI blocked.",
+      "acceptanceCriteria": [
+        "When a user is logged in and enters a valid name, clicking “Continue” saves the name and the dialog closes automatically.",
+        "After the dialog closes, the underlying app UI (e.g., dashboard and charts) is usable and not blocked by any invisible overlay.",
+        "If saving fails, the dialog stays open and shows an English error message explaining that saving the profile failed and that the user can retry.",
+        "The “Continue” button cannot get stuck in a state where it appears clickable but does nothing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "modify",
+          "description": "Align the frontend profile types and save/load logic with the backend interface used by the Internet Identity + authorization flow: read the caller profile via the actor, build a valid backend UserProfile from the entered name (e.g., map to givenName and mark onboardingComplete), and on successful save update/invalidate the currentUserProfile query so App.tsx can stop rendering the dialog immediately. Add explicit error propagation so failed saves surface to the UI instead of silently resolving. Use the authorization component’s recommended approach for dependency-aware profile fetching (actor dependency + isFetched gating). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "modify",
+          "description": "Fix the dialog submit UX so Continue always triggers a real save attempt and cannot become a no-op: wire the mutation's pending/success/error states into the UI, show an English error message on failure (keep dialog open), and ensure success causes the dialog to unmount (via updated profile query state). Ensure no lingering overlay blocks the app after unmount by relying on proper Dialog lifecycle (no orphaned open state). Keep shadcn/ui sources untouched (compose only). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Tighten the showProfileSetup gating so the dialog only renders when the user is authenticated and the profile query is definitively fetched, preventing any onboarding modal flash or persistent blocking state during actor/profile transitions. Ensure the dialog disappears once the profile is saved (non-null). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add a reliable Exit action to the profile setup dialog that logs out and returns to the sign-in UI even if profile operations fail.",
+      "acceptanceCriteria": [
+        "The profile setup dialog shows an “Exit” button with English text.",
+        "Clicking “Exit” logs the user out (clears Internet Identity session) and returns to the sign-in UI.",
+        "“Exit” works even if the backend is unavailable or profile loading/saving is failing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "modify",
+          "description": "Add an explicit “Exit” button to the dialog that calls the Internet Identity clear/logout action and clears cached app data (e.g., React Query cache) so the app returns to the RequireAuth sign-in UI immediately. Ensure Exit does not depend on profile load/save success and remains clickable even when the save mutation is failing. Use the authorization component’s frontend guidance for logout (clear identity + clear cached profile). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "modify",
+          "description": "Extract/centralize (or reuse) the existing logout behavior (Internet Identity clear + query cache clear) so the same reliable logout logic is used by both the LoginButton and the onboarding Exit action, preventing inconsistent logout states. Use the authorization component’s frontend logout guidance. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

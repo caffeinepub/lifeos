@@ -1,0 +1,94 @@
+{
+  "kind": "build_request",
+  "title": "Fix onboarding profile setup dialog so Continue/Exit works after Internet Identity login",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "text": "Fix the profile onboarding flow so that after Internet Identity login, the “Welcome to LifeOS / Please enter your name” dialog can be successfully completed and the user is not stuck on the name entry screen.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-8",
+          "msg-12"
+        ],
+        "quotes": [
+          "After login then the button not working",
+          "Enter your name but after I put name screen doesn't work",
+          "No need details fix from after entering the web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When a user is logged in and enters a valid name, clicking “Continue” saves the name and the dialog closes automatically.",
+        "After the dialog closes, the underlying app UI (e.g., dashboard and charts) is usable and not blocked by any invisible overlay.",
+        "If saving fails, the dialog stays open and shows an English error message explaining that saving the profile failed and that the user can retry.",
+        "The “Continue” button cannot get stuck in a state where it appears clickable but does nothing."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Add an explicit “Exit” action on the profile setup dialog that reliably lets the user leave the onboarding screen (log out and return to the sign-in screen).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "After entering the web its showing enter your name then I enter and continue the continue button or exit button not working"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The profile setup dialog shows an “Exit” button with English text.",
+        "Clicking “Exit” logs the user out (clears Internet Identity session) and returns to the sign-in UI.",
+        "“Exit” works even if the backend is unavailable or profile loading/saving is failing."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Ensure the backend exposes and persists per-user profile data required by the onboarding flow (get and save caller profile) so the frontend can determine whether onboarding is complete.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-8",
+          "msg-12"
+        ],
+        "quotes": [
+          "After login then the button not working",
+          "Enter your name but after I put name screen doesn't work",
+          "No need details fix from after entering the web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The backend provides a query method to fetch the caller’s profile (returns null/none when not set).",
+        "The backend provides an update method to save the caller’s profile (at minimum: name).",
+        "After saving a profile, fetching the profile returns the saved data for the same caller principal.",
+        "Profile data is isolated per principal (one user cannot read or overwrite another user’s profile)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit any files under frontend/src/components/ui (Shadcn UI sources are read-only and must be composed, not modified).",
+    "Keep all Motoko logic in the single actor in backend/main.mo; only add a migration file if an upgrade-safe state change requires it.",
+    "All user-facing text must be in English."
+  ],
+  "nonGoals": [
+    "Do not add new analytics features, charts, or recommendation logic beyond what is needed to unblock onboarding.",
+    "Do not implement any native Android OS-level tracking or device-level blocking (web-only constraints apply)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

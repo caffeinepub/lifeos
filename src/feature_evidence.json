@@ -1,0 +1,46 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-fix-the-profile-onboarding-flow-so-that-after-internet-identity-login-the-welcome-to-lifeos-please-enter-your-name-dialog-can-be-successfully-completed-and-the-user-is-not-stuck-on-the-name-entry-screen",
+      "featureTitle": "Fix the profile onboarding flow so that after Internet Identity login, the “Welcome to LifeOS / Please enter your name” dialog can be successfully completed and the user is not stuck on the name entry screen.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useCurrentUserProfile.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-explicit-exit-action-on-the-profile-setup-dialog-that-reliably-lets-the-user-leave-the-onboarding-screen-log-out-and-return-to-the-sign-in-screen",
+      "featureTitle": "Add an explicit “Exit” action on the profile setup dialog that reliably lets the user leave the onboarding screen (log out and return to the sign-in screen).",
+      "files": [
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
